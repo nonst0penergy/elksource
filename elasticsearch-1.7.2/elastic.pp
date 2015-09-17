@@ -1,17 +1,25 @@
-fiel {'C:\elk\elasticsearch-1.7.2\config\elasticsearch.yml':
-	ensure => 'file',
-      mode   => '0700',
-      owner  => 'Administrators',
-      group  => 'Administrators',
-      source => 'C:\temp\elasticsearch.yml'
-}
-exec { 'elasticsearch install':
+exec { 'elasticsearch start':
 	
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\elasticsearch-1.7.2\bin\service start"',
+	require => Exec ["elasticsearch install"],
+}
+file {'C:\elk\elasticsearch-1.7.2\config\elasticsearch.yml':
+	ensure => 'file',
+      mode   => '0700',
+      owner  => 'Administrator',
+      group  => 'Administrators',
+      source => 'C:\temp\elasticsearch.yml'
+       require => Exec ["elasticsearch install"],
+}
+
+exec { 'elasticsearch-head plugin':
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\elasticsearch-1.7.2\bin\plugin -install mobz/elasticsearch-head"',
 }
 exec { 'elasticsearch install':
 	
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\elasticsearch-1.7.2\bin\service install"',
+	 require => Download_file ["Download elasticsearch"],
+ 	timeout => 1800
 }
 
 windows::unzip { 'C:\temp\elasticsearch-1.7.2.zip':
