@@ -30,6 +30,11 @@ windows::unzip { 'C:\temp\elasticsearch-1.7.2.zip':
  timeout => 1800
 }
 
+windows::environment { 'JAVA_HOME':
+	value => 'C:\Program Files\Java\jdk1.8.0_45',
+}
+
+include 'windows_java'
 exec { 'elk':
 	
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe mkdir C:\elk',
@@ -51,8 +56,6 @@ exec { 'counsyl-windows':
 
 }
 	
-#include 'windows_java'
-
 
 exec { 'cyberious-windows_java':
 	
