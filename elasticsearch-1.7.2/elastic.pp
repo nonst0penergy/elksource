@@ -14,6 +14,7 @@ file {'C:\elk\elasticsearch-1.7.2\config\elasticsearch.yml':
 
 exec { 'elasticsearch-head plugin':
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\elasticsearch-1.7.2\bin\plugin -install mobz/elasticsearch-head"',
+	require => Exec ["elasticsearch install"],	
 }
 exec { 'elasticsearch install':
 	
