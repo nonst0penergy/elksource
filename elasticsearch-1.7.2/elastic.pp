@@ -8,7 +8,7 @@ file {'C:\elk\elasticsearch-1.7.2\config\elasticsearch.yml':
       mode   => '0700',
       owner  => 'Administrator',
       group  => 'Administrators',
-      source => 'C:\temp\elasticsearch.yml'
+      source => 'C:\temp\elasticsearch.yml',
        require => Exec ["elasticsearch install"],
 }
 
@@ -40,9 +40,24 @@ download_file { "Download elasticsearch" :
      destination_directory => 'c:\temp',
     
 }
+exec { 'opentable-download_file':
+	
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install opentable-download_file"',
+	timeout => 1800
+}
 exec { 'counsyl-windows':
 	
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install counsyl-windows"',
+
+}
+	
+#include 'windows_java'
+
+
+exec { 'cyberious-windows_java':
+	
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install cyberious-windows_java"',
+	
 }
 
 
@@ -61,10 +76,3 @@ exec { 'counsyl-windows':
 #		command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elasticsearch-1.7.2\bin\service install"',
 #	before => Download_file ["jdk8"],''
 #}
-
-
-
-
-
-
-
