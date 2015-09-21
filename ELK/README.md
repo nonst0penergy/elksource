@@ -11,7 +11,7 @@ After Java install you need to reboot your PC
 
 ELK install
 
-To install ELK run:
+To install :
 
 1. If you didnt use this manifest with Java install run:
 
