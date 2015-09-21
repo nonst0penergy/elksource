@@ -54,11 +54,11 @@ file { 'C:\elk\logstash-1.5.4\bin\run.bat':
 }
 }
 
-class down_nssm {
+class down_logstash {
 windows::unzip { 'C:\temp\logstash-1.5.4.zip':
 	destination => 'C:\elk',
 	creates     => 'C:\elk\logstash-1.5.4',
-	require => Download_file ["Download_nssm"],
+	require => Download_file ["Download_logstash"],
  timeout => 1800
 }
 
