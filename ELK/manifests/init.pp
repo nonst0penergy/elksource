@@ -1,9 +1,10 @@
 include kibana
+include elasticsearch
 include logstash
 include down_logstash
+include unzip_kibana_elastic
 include down_nssm
-include down
-include elasticsearch
+
 
 
 class kibana {
@@ -21,7 +22,7 @@ exec { 'kibana_service_install':
 
 exec { 'copy_nssm':
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe copy -Path C:\elk\nssm-2.24\win64\nssm.exe -Destination "C:\elk\kibana-4.1.2-windows\bin"',
-	require => [Class ['down_nssm'], Class ['down'] ],
+	require => [Class ['down_nssm'], Class ['unzip_kibana_elastic'] ],
 	timeout => 1800
 }
 }
@@ -49,7 +50,7 @@ file { 'C:\elk\logstash-1.5.4\bin\run.bat':
 
 exec { 'copy_nssm_logstash':
 	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe copy -Path C:\elk\nssm-2.24\win64\nssm.exe -Destination "C:\elk\logstash-1.5.4\bin"',
-	require => [Class ['down_nssm'], Class ['down'] ],
+	require => [Class ['down_nssm'], Class ['unzip_kibana_elastic'] ],
 	timeout => 1800
 }
 }
@@ -73,9 +74,9 @@ windows::unzip { 'C:\temp\nssm-2.24.zip':
 	destination => 'C:\elk',
 	creates     => 'C:\elk\nssm-2.24',
 	require => Download_file ["Download_nssm"],
- timeout => 1800
-}
 
+}
+#timeout => 1800
 download_file { "Download_nssm" :
 			url                   => 'http://nssm.cc/release/nssm-2.24.zip',
 		 destination_directory => 'c:\temp',
@@ -95,7 +96,7 @@ file {'C:\elk\elasticsearch-1.7.2\config\elasticsearch.yml':
       mode   => '0700',
       owner  => 'Administrator',
       group  => 'Administrators',
-      source => 'C:\elasticsearch.yml',
+      source => 'puppet:///modules/ELK/elasticsearch.yml',
        require => Exec ["elasticsearch install"],
 }
 
@@ -111,7 +112,7 @@ exec { 'elasticsearch install':
 }
 }
 
-class down {
+class unzip_kibana_elastic {
 
 windows::unzip { 'C:\temp\elasticsearch-1.7.2.zip':
   destination => 'C:\elk',
