@@ -3,7 +3,7 @@ include logstash
 include down_logstash
 include down_nssm
 include down
-include inst
+include elasticsearch
 
 
 class kibana {
@@ -28,20 +28,14 @@ exec { 'copy_nssm':
 
 class logstash {
 exec { 'nssm_logstash_start':
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\kibana-4.1.2-windows\bin\nssm start logstash"',
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\logstash-1.5.4\bin\nssm start logstash"',
 	require => Exec ['logstash_service_install'],
 	timeout => 1800
 }
 	#	require => Exec ['kibana_service_install'],
 exec { 'logstash_service_install':
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\kibana-4.1.2-windows\bin\nssm install logstash C:\elk\logstash-1.5.4\bin\run.bat"',
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elk\logstash-1.5.4\bin\nssm install logstash C:\elk\logstash-1.5.4\bin\run.bat"',
 	require => Exec ['copy_nssm_logstash'],
-	timeout => 1800
-}
-
-exec { 'copy_nssm_logstash':
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe copy -Path C:\elk\nssm-2.24\win64\nssm.exe -Destination "C:\elk\logstash-1.5.4\bin"',
-	require => [Class ['down_nssm'], Class ['down'] ],
 	timeout => 1800
 }
 
@@ -51,6 +45,12 @@ file { 'C:\elk\logstash-1.5.4\bin\run.bat':
     content => "logstash.bat agent -f logstash.conf",
     mode    => 0700,
 		require => Exec ['copy_nssm_logstash'],
+}
+
+exec { 'copy_nssm_logstash':
+	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe copy -Path C:\elk\nssm-2.24\win64\nssm.exe -Destination "C:\elk\logstash-1.5.4\bin"',
+	require => [Class ['down_nssm'], Class ['down'] ],
+	timeout => 1800
 }
 }
 
@@ -81,7 +81,7 @@ download_file { "Download_nssm" :
 		 destination_directory => 'c:\temp',
 		 }
 }
-class inst {
+class elasticsearch {
 
 #require => Download_file ["Download kibana"],
 
@@ -146,25 +146,25 @@ download_file { "Download kibana" :
 
 }
 #Puppet module for download_file
-exec { 'opentable-download_file':
+#exec { 'opentable-download_file':
 
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install opentable-download_file"',
-	timeout => 1800
-}
+#	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install opentable-download_file"',
+#	timeout => 1800
+#}
 
 #Puppet module for unzip
-exec { 'counsyl-windows':
+#exec { 'counsyl-windows':
 
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install counsyl-windows"',
+#	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install counsyl-windows"',
 
-}
+#}
 
 #Puppet module for JAVA install
-exec { 'cyberious-windows_java':
+#exec { 'cyberious-windows_java':
 
-	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install cyberious-windows_java"',
+#	command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install cyberious-windows_java"',
 
-}
+#}
 
 
 
