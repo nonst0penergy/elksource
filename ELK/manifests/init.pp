@@ -1,6 +1,6 @@
-include kibana
 include logstash
 include down_logstash
+include kibana
 include elasticsearch
 include unzip_elastic
 include unzip_kibana
@@ -158,3 +158,44 @@ exec { 'elk':
 
 command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe mkdir C:\elk',
 }
+
+#require => Download_file ["Download elasticsearch"],
+
+
+#Puppet module for download_file
+#exec { 'opentable-download_file':
+
+# command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install opentable-download_file"',
+# timeout => 1800
+#}
+
+#Puppet module for unzip
+#exec { 'counsyl-windows':
+
+# command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install counsyl-windows"',
+
+#}
+
+#Puppet module for JAVA install
+#exec { 'cyberious-windows_java':
+
+# command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\Program` Files\Puppet` Labs\Puppet\bin\puppet module install cyberious-windows_java"',
+
+#}
+
+
+
+#windows::environment { 'JAVA_HOME':
+# value => 'C:\Program Files\Java\jdk1.8.0_60',
+#}
+
+#download_file { "Download jdk8":
+# url => 'http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-windows-x64.exe',
+# destination_directory => 'C:\temp'
+#
+#
+#}
+#exec { 'C:\elasticsearch-1.7.2\bin\':
+# command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "C:\elasticsearch-1.7.2\bin\service install"',
+# before => Download_file ["jdk8"],''
+#}

@@ -1,6 +1,6 @@
 include kibana
-include logstash
-include down_logstash
+#include logstash
+#include down_logstash
 include elasticsearch
 include unzip_elastic
 include unzip_kibana
