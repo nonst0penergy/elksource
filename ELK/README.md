@@ -32,3 +32,9 @@ C:\elk\elasticsearch-1.7.2\bin\service start\stop\remove\install
 C:\elk\logstash-1.5.4\bin\nssm start\stop\remove logstash
 
 C:\elk\kibana-4.1.2-windows\bin\nssm start\stop\remove kibana
+
+Puppet tests
+
+1. To check out manifest result, run following command:
+
+C:\elksource\rake spec
