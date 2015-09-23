@@ -15,6 +15,7 @@ or you can install Java jdk using puppet in 2 steps:
 - puppet apply C:\elksource\manifests\windows_modules.pp
 - puppet apply C:\elksource\manifests\jdk_install.pp
 
+
 4. After Java install you need to reboot your system.
 
 ELK install
