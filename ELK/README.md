@@ -35,6 +35,7 @@ C:\elk\kibana-4.1.2-windows\bin\nssm start\stop\remove kibana
 
 Puppet tests
 
-1. To check out manifest result, run following command:
+1. You need to have ruby installed on your system. If not you can download it here http://rubyinstaller.org/downloads/
+2. To check out manifest result, run following command:
 
-C:\elksource\rake spec
+C:\elksource> rake spec
