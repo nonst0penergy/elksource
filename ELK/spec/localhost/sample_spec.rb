@@ -23,6 +23,13 @@ describe service('org.apache.httpd'), :if => os[:family] == 'darwin' do
   it { should be_running }
 end
 
+describe file('C:\elk') do
+  it { should be_directory }
+end
+describe file('C:\temp') do
+  it { should be_directory }
+end
+
 describe port(9200) do
   it { should be_listening }
 end
