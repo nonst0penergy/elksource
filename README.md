@@ -1,14 +1,10 @@
 Pre-requirements
 
-1. Create directory
-  mkdir C:\elksource
+1. Downloand all soruces into disk C:\
 
-2. And download all source from
-  cd C:\elksource
+ git clone https://github.com/nonst0penergy/puppet/tree/master/ELK
 
-  github git clone https://github.com/nonst0penergy/puppet/tree/master/ELK
-
-3. Download and install Java jdk. You can use following link http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html and
+2. Download and install Java jdk. You can use following link http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html and
 set JAVA_HOME environment variable
 or you can install Java jdk using puppet in 2 steps:
 
@@ -16,7 +12,7 @@ or you can install Java jdk using puppet in 2 steps:
 - puppet apply C:\elksource\manifests\jdk_install.pp
 
 
-4. After Java install you need to reboot your system.
+3. After Java install you need to reboot your system.
 
 ELK install
 
