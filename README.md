@@ -1,4 +1,4 @@
-<h2>Pre-requirements
+<h6>Pre-requirements
 
 1. You need to have git already installed. If not you can download it here https://git-scm.com/download/win
 
@@ -20,7 +20,7 @@ or you can install Java jdk using puppet in 2 steps:
 
 5. After Java install you need to reboot your system.
 
-<h2>ELK install
+<h6>ELK install
 
 1. If you didnt use this jdk_install.pp with Java installation, then run command below with Puppet Command Promt:
 ```
