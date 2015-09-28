@@ -1,4 +1,4 @@
-<h6>Pre-requirements
+<h6>Pre-requirements</h6>
 
 1. You need to have git already installed. If not you can download it here https://git-scm.com/download/win
 
