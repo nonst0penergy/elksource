@@ -1,10 +1,14 @@
 Pre-requirements
 
-1. Downloand all soruces into disk C:\
+1. You need to have git already installed. If not you can download it here https://git-scm.com/download/win
+
+2. Install puppet. You can download it here https://downloads.puppetlabs.com/windows/?_ga=1.247525890.405451615.1442388246
+
+3. Downloand all soruces into disk C:\ using git bash by executing the command:
 
  git clone https://github.com/nonst0penergy/puppet/tree/master/ELK
 
-2. Download and install Java jdk. You can use following link http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html and
+4. Download and install Java jdk. You can use following link http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html and
 set JAVA_HOME environment variable
 or you can install Java jdk using puppet in 2 steps:
 
@@ -12,11 +16,11 @@ or you can install Java jdk using puppet in 2 steps:
 - puppet apply C:\elksource\manifests\jdk_install.pp
 
 
-3. After Java install you need to reboot your system.
+5. After Java install you need to reboot your system.
 
 ELK install
 
-1. If you didnt use this jdk_install.pp with Java installation, then run:
+1. If you didnt use this jdk_install.pp with Java installation, then run command below with Puppet Command Promt:
 
   puppet apply Path:\manifests\jdk_install.pp
 
