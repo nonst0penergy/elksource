@@ -1,0 +1,115 @@
+<h3>Install puppet master on puppet server.</h3>
+
+Puppet Labs [source link](https://docs.puppetlabs.com/guides/install_puppet/pre_install.html) 
+
+In accordance to your OS download the “puppetlabs-release” package for your OS version.
+
+Debian and Ubuntu [source link](https://docs.puppetlabs.com/guides/install_puppet/install_debian_ubuntu.html)
+
+You can see a full list of these packages on the front page of [https://apt.puppetlabs.com/](https://apt.puppetlabs.com/?_ga=1.251509251.405451615.1442388246).
+
+They are all named puppetlabs-release-"CODE NAME".deb. (For Ubuntu releases, the code name is the adjective, not the animal.)
+Architecture is handled automatically; there is only one package per OS version.
+Install the package by running dpkg -i "PACKAGE NAME".
+Run apt-get update to get the new list of available packages.
+
+For example :
+```
+wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+sudo dpkg -i puppetlabs-release-precise.deb
+sudo apt-get update
+```
+CentOS [source link](https://docs.puppetlabs.com/guides/install_puppet/install_el.html)
+
+You can see a full list of these packages on the front page of [https://yum.puppetlabs.com/](https://yum.puppetlabs.com/?_ga=1.180810018.405451615.1442388246)
+On your puppet master node(s), run sudo yum install puppet-server. 
+This will install Puppet and an init script (/etc/init.d/puppetmaster) for running a test-quality puppet master server
+
+For example:
+```
+sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
+sudo yum install puppet-server
+```
+To upgrade to the latest version of Puppet, you can run:
+`sudo puppet resource package puppet-server ensure=latest`
+
+<h4>Install Puppet on Agent Nodes </h4>
+
+Add hostname and IP of your puppetserver in /etc/hosts , or for windows in `C:\Windows\System32\drivers\etc\hosts` .
+
+CentOS [source link](https://docs.puppetlabs.com/guides/install_puppet/install_el.html)
+
+On your other nodes, run 
+`sudo yum install puppet`
+
+This will install Puppet and an init script (/etc/init.d/puppet) for running the puppet agent daemon.
+Set puppet server name in /etc/puppet/puppet.conf , where `NAME` - hostname of your puppet master.
+```
+[main]
+server = NAME
+```
+To upgrade to the latest version of Puppet, you can run
+``sudo puppet resource package puppet ensure=latest``
+You’ll need to restart the puppet service after upgrading.
+
+Ubuntu 
+
+You can use following script, where
+`apt.puppetlabs.com/puppetlabs-release-trusty.deb` - link to the [package](https://apt.puppetlabs.com/?_ga=1.251509251.405451615.1442388246)
+`NAME` - hostname of your puppet server
+```
+#!/bin/bash
+wget apt.puppetlabs.com/puppetlabs-release-trusty.deb
+dpkg -i puppetlabs-release-trusty.deb
+rm puppetlabs-release-trusty.deb
+apt-get install -y puppet
+sed -i s/START=no/START=yes/g /etc/default/puppet
+sed -i '/\/var\/log\/puppet/a \server=NAME' /etc/puppet/puppet.conf
+sed -i 's/templatedir/#templatedir/' /etc/puppet/puppet.conf
+#puppet agent --test
+```
+This script installs puppet agent, the agent sets the Autorun at system startup, indicates the address Puppet server and runs the agent. We also comment out the line in the config /etc/puppet/puppet.conf templatedir, if not  - we have warnings.
+
+Windows 
+
+Download and install puppet for windows [here](https://downloads.puppetlabs.com/windows/?_ga=1.247525890.405451615.1442388246) .
+And set puppet server name in `C:\ProgramData\PuppetLabs\Puppet\etc\puppet.conf` .
+`
+[main]
+server = NAME
+`
+<h4>Now you need to connect your puppet agents to your puppet master by signing certificate.</h4>
+Run 
+`puppet agent -t`
+and it will send certificate to puppet server.
+On puppet server you can check new certificates using 
+`puppet cert --list` 
+or see all certificates 
+`puppet cert --list --all`
+To sign cert use 
+```
+puppet cert --sign $client_name
+``` 
+or
+```
+puppet cert --sign -all
+```
+to sign all certs.
+
+All certificates stores on puppet server in ``/var/lib/puppet/ssl`` .
+If you have some troubles with certs, delete certs in ``/var/lib/puppet/ssl`` on puppet master, remove ssl dir on puppet agent ``rm -rf /usr/lib/puppet/ssl`` , and try again.
+
+<h5>Puppet + Foreman</h5>
+If you want to use Foreman follow instructions on this link [Chapter I](http://habrahabr.ru/post/267617/) and [Chapter II] (http://habrahabr.ru/post/267713/) .
+Foreman installer home page [http://theforeman.org](http://theforeman.org/manuals/1.6/quickstart_guide.html).
+You need to use puppet 3.7.4 or lower, because Foreman doesn't support higher puppet version. 
+As a workaround, either when installing foreman-installer use this:
+```
+RPM: yum install puppet-3.7.4 foreman-installer
+deb: apt-get install puppet=3.7.4-1puppetlabs1 puppet-common=3.7.4-1puppetlabs1 foreman-installer
+```
+Or if you've already got 3.7.5 installed and wish to downgrade to run the installer:
+```
+RPM: yum downgrade puppet-3.7.4
+deb: apt-get install puppet=3.7.4-1puppetlabs1 puppet-common=3.7.4-1puppetlabs1
+```
