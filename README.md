@@ -17,8 +17,8 @@ Windows Server 2012R2
 - ``default['nd-hyperv']['environment_key']`` - Set environment wich will be used (dev, prod, etc.).
 - ``default['nd-hyperv']['databag_keys']`` - Name of databag wich contains chefs keys. 
 - ``default['nd-hyperv']['file_keys']`` - Name of subfolder wich contains chefs keys. 
-- ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` - Set true if use encrypted databags
-- ``default['nd-hyperv']['client']['encrypted_data_bag'] `` - Set true if use encrypted databags
+- ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` - Set true if encrypted databags are used
+- ``default['nd-hyperv']['client']['encrypted_data_bag'] `` - Set true if  encrypted databags are used
 
 ###Important 
 Names of keys consists of 2 parts. For example: 
