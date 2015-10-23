@@ -1,3 +1,105 @@
+# nd-hyperv-cookbook
+
+![](http://www.joshluedeman.com/wp-content/uploads/2014/06/Hyper-V-logo.png)
+
+This cookbook works (as role cookbook)
+ * Installs chefdk
+ * Adds knife.rb and client key so that hyper-v nodes can create vms
+ * Raises hyper-v role 
+ * Joins to AD domain
+ * Adds determined user to local admins.
+
+## Supported Platforms
+Windows Server 2012R2
+
+## Reboots
+Joining active directory and raising roles requires a restart. 
+
+## Atributes
+
+- ``default['nd-hyperv']['environment_key']`` - Set environment wich will be used (dev, prod, etc.).
+- ``default['nd-hyperv']['databag_keys']`` - Name of databag wich contains chef keys. 
+- ``default['nd-hyperv']['file_keys']`` - Name of Files directory subfolder wich contains chef keys. 
+- ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` - Set true if you are using encrypted databags
+- ``default['nd-hyperv']['client']['encrypted_data_bag'] `` - Set true if you are using encrypted databags
+
+###Important 
+Names of keys consists of 2 parts. For example: 
+- dev-validator.pem 
+- dev-client.pem
+
+Where 
+- ``dev`` is variable avalible in atributes/default.rb ``default['nd-hyperv']['environment_key']``
+- ``-validator`` and ``-client`` are **unchangeble parts** of name and should be the same for all keys.
+
+###Databags keys usage
+While our node is bootstraping, pair of keys  ``client.pem`` and ``validator.pem`` are creating with some conditions.
+
+First of all cookbook calls databag and checks  ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` variable. If it is `true` chef will use object ``EncryptedDataBagItem`` which will load and decrypt our keys. If we are using unencrypted databag items, variable should be `false`.
+
+If there are no avalible databags, chef will use keys wich are stored in cookbook files directory with subfolder name, seted in ``default['nd-hyperv']['file_keys']`` . 
+
+## Usage
+
+Bootstrap chef-client and install as service. Set environment wit "-E"
+```
+knife bootstrap windows winrm ip-address -x Administrator -P 'password' -N 'node_name'  -E environment_name --install-as-service
+```
+Set the proper role to your node on Chef server
+```
+knife node run_list set 'node_name' 'role[role_name]'
+```
+Run chef client on node. 
+```
+knife winrm 'node_name' chef-client -m -x Administrator -P 'password'
+```
+
+
+
+## Deprecated??
+
+You will still need to add the hyperv node to the group with knifeacl
+
+```
+# UNTESTED
+knife group create bootstrap-clients
+knife acl add group bootstrap-clients clients create,read,update
+knife acl bulk add group bootstrap-clients '.\*' clients create,read,update --yes
+```
+
+After node has been bootstrapped
+    #UNTESTED
+    knife group add client lab-hvci06 bootstrap-clients
+
+[http://spuder.github.io/chef/chef-12-admin-clients/](http://spuder.github.io/chef/chef-12-admin-clients/)
+
+## License and Authors
+Author:: Andrii Demianenko (ademian@softserveinc.com)    
+Author:: Spencer Owen (sowen@netdocuments.com)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <h3>Pre-requirements</h3>
 
 1. You need to have git already installed. If not you can download it [here] (https://git-scm.com/download/win)
