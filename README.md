@@ -12,16 +12,13 @@ This cookbook works (as role cookbook)
 ## Supported Platforms
 Windows Server 2012R2
 
-## Reboots
-Joining active directory and raising roles requires a restart. 
-
 ## Atributes
 
 - ``default['nd-hyperv']['environment_key']`` - Set environment wich will be used (dev, prod, etc.).
-- ``default['nd-hyperv']['databag_keys']`` - Name of databag wich contains chef keys. 
-- ``default['nd-hyperv']['file_keys']`` - Name of Files directory subfolder wich contains chef keys. 
-- ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` - Set true if you are using encrypted databags
-- ``default['nd-hyperv']['client']['encrypted_data_bag'] `` - Set true if you are using encrypted databags
+- ``default['nd-hyperv']['databag_keys']`` - Name of databag wich contains chefs keys. 
+- ``default['nd-hyperv']['file_keys']`` - Name of subfolder wich contains chefs keys. 
+- ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` - Set true if use encrypted databags
+- ``default['nd-hyperv']['client']['encrypted_data_bag'] `` - Set true if use encrypted databags
 
 ###Important 
 Names of keys consists of 2 parts. For example: 
@@ -33,11 +30,11 @@ Where
 - ``-validator`` and ``-client`` are **unchangeble parts** of name and should be the same for all keys.
 
 ###Databags keys usage
-While our node is bootstraping, pair of keys  ``client.pem`` and ``validator.pem`` are creating with some conditions.
+When node bootstraps, pair of keys  ``client.pem`` and ``validator.pem`` are creating with some conditions.
 
-First of all cookbook calls databag and checks  ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` variable. If it is `true` chef will use object ``EncryptedDataBagItem`` which will load and decrypt our keys. If we are using unencrypted databag items, variable should be `false`.
+First of all cookbook calls databag and checks  ``default['nd-hyperv']['validation']['encrypted_data_bag'] `` variable. If it is `true` chef will use object ``EncryptedDataBagItem`` which loads and decrypt keys. If unencrypted databag items are used, variable should be `false`.
 
-If there are no avalible databags, chef will use keys wich are stored in cookbook files directory with subfolder name, seted in ``default['nd-hyperv']['file_keys']`` . 
+If there are no avalible databags, chef uses keys wich are stored in Files/subfolder_name, seted in ``default['nd-hyperv']['file_keys']`` . 
 
 ## Usage
 
