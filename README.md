@@ -29,7 +29,7 @@ Names of keys consists of 2 parts. For example:
 - dev-client.pem
 
 Where 
-- ``dev`` is variable avalible in atributes/default.rb ``default['nd-hyperv']['environment_key']``
+- ``dev`` is environment variable avalible in atributes/default.rb ``default['nd-hyperv']['environment_key']``
 - ``-validator`` and ``-client`` are **unchangeble parts** of name and should be the same for all keys.
 
 ###Databags keys usage
