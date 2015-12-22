@@ -73,11 +73,11 @@ This script installs puppet agent, the agent sets the Autorun at system startup,
 Windows 
 
 Download and install puppet for windows [here](https://downloads.puppetlabs.com/windows/?_ga=1.247525890.405451615.1442388246) .
-And set puppet server name in `C:\ProgramData\PuppetLabs\Puppet\etc\puppet.conf` .
-`
+And set puppet server name in `C:\ProgramData\PuppetLabs\Puppet\etc\puppet.conf`.
+```
 [main]
 server = NAME
-`
+```
 <h4>Now you need to connect your puppet agents to your puppet master by signing certificate.</h4>
 Run 
 `puppet agent -t`

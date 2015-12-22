@@ -7,7 +7,7 @@
 3. Downloand all soruces into disk C:\ using git bash by executing the command:
 
  ```
- git clone https://github.com/nonst0penergy/puppet/tree/master/ELK
+ git clone https://github.com/nonst0penergy/elksource.git
  ```
 
 4. Download and install Java jdk,( you can use following [link] (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)) and
